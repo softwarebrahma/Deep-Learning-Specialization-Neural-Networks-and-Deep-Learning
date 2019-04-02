@@ -1,0 +1,66 @@
+
+Broadcasting in Python:
+
+Broadcasting is a technique that can be used to make the implementation more efficient
+	- Run faster.
+	- Fewer lines of code.
+
+import numpy as np
+
+A = np.array([[56, 0, 4.4, 68], [1.2, 104, 52, 8], [1.8, 135, 99, 0.9]])
+
+cal = A.sum(axis=0)						(axis 0 refers to vertical axis & 1 refers to horizontal axis)
+
+percentage = 100 * A / cal				(percentage = 100 * A / cal.reshape(1,4) --> Reshape here is redundant but can be used when the dimensions aren't known to be corrrect as needed)
+	- The above python command is actually a "broadcast" division operation between numPy arrays/matrices A (3, 4) & cal (1, 4).
+
+NOTE: reshape() function is a constant time (order one) operation..so its very cheap to call.
+
+
+Broadcasting works for both Column & Row vectors.
+
+Vector operations between a vector & scalar will be automatically "broadcasted" (row/column values will be copied/repeated to match the vector dimensions)
+
+Matrix operations between m x n and 1 x n matrics AND between m x n and m x 1 matrices require no reshape & will be automatically "broadcasted" (row/column values copied/repeated to match the matrix dimensions (m x n)). 
+
+All these apply for addition, subtraction, multiplication, division, etc.
+
+
+Tips for bug free code
+
+	- Python numPy has the concept of "Rank One Arrays" that get created when we call np.random.rand() or np.random.randn(<>). These are NEITHER Row NOR Column Vectors & hence might behave weirdly when matrix/vector operations are performed on it. To avoid this always specify the row & column indexes so that the arrays are created as m x n dimensions arrays and can be bound to matrices & row/column vectors.
+		- Eg: Use colVec = np.random.randn(4,1)		-> Creates a 4 x 1 Matrix or a 4 dimensional Column Vector
+	
+	- Use shape field to check dimensions. Eg: print(colVec.shape)
+	
+	- User assertions to both validate & to serve as documentation. Eg: assert(colVec.shape == (4,1))
+	
+	- Use reshape to make sure the dimensions are correct when in doubt. Eg: colVec = colVec.reshape((4,1))
+
+===========
+
+Log function is a strictly monotonically increasing function.
+
+Logistic Regression Cost Function is actually the probability of y given x,		y^ = P(y=1|x)
+
+We want to interpret yhat as the p( y = 1 | x). So we want our algorithm to output yhat as the chance that y = 1 for a given set of input features x. Another way to say this is that if y is equal to 1 then the chance of y given x is equal to yhat. And conversely if y is equal to 0 then the chance that y was 0 was 1- yhat
+
+
+
+Now we use log function in the Cost Function because its a strictly monotonically increasing function.
+
+Minimzing the Loss function corresponds (from the formula) to maximizing the probability (log based, again based on formula)
+
+
+Assuming training samples are Identically Independantly Distributed (IID)
+
+Maximum Liklelihood Estimation, is the process of choosing the parameters that maximizes the probability for the entire training set.
+
+By minimizing Cost Function, we are actually carrying out Maximum Liklelihood Estimation with the logistic regression model assuming samples are IID.
+
+To summarize, by minimizing this cost function J(w,b) we're really carrying out maximum likelihood estimation with the logistic regression model, under the assumption that our training examples were IID, or identically independently distributed. 
+
+
+
+
+

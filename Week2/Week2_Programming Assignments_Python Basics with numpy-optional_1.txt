@@ -1,0 +1,277 @@
+
+Basic core deep learning functions such as the softmax, sigmoid, dsigmoid, shape, reshape, exp, etc.
+
+Bandle data by normalizing inputs and reshaping images.
+
+•Be able to use iPython Notebooks
+•Be able to use numpy functions and numpy matrix/vector operations
+•Understand the concept of "broadcasting"
+•Be able to vectorize code
+
+======
+
+1 - Building basic functions with numpy:
+
+Gradient (also called the Slope or Derivative)
+
+For example, if you would like to reshape an array v of shape (a, b, c) into a vector of shape (a*b,c) you would do:
+v = v.reshape((v.shape[0]*v.shape[1], v.shape[2])) # v.shape[0] = a ; v.shape[1] = b ; v.shape[2] = c
+
+
+Two common numpy functions used in deep learning are np.shape and np.reshape().
+X.shape is used to get the shape (dimension) of a matrix/vector X.
+X.reshape(...) is used to reshape X into some other dimension.
+For example, in computer science, an image is represented by a 3D array of shape  (length,height,depth=3)(length,height,depth=3) . However, when you read an image as the input of an algorithm you convert it to a vector of shape  (length∗height∗3,1)(length∗height∗3,1) . 
+	- In other words, you "unroll", or reshape, the 3D array into a 1D vector.
+
+
+Another common technique we use in Machine Learning and Deep Learning is to normalize our data. It often leads to a better performance because gradient descent converges faster after normalization. 
+	- Here, by normalization we mean changing x to  x / ∥x∥ (dividing each row vector of x by its norm).
+
+http://mathworld.wolfram.com/L2-Norm.html
+	-  For a real numbered set/vector, the norm is the Square root of the Sum of the Squares of the set/vector's member real numbers.
+
+	
+A very important concept to understand in numpy is "broadcasting". It is very useful for performing mathematical operations between arrays of different shapes.
+
+https://docs.scipy.org/doc/numpy/user/basics.broadcasting.html
+	- The term broadcasting describes how numpy treats arrays with different shapes during arithmetic operations. 
+	- Subject to certain constraints, the smaller array is “broadcast” across the larger array so that they have compatible shapes. 
+	- Broadcasting provides a means of vectorizing array operations so that looping occurs in C instead of Python. It does this without making needless copies of data and usually leads to efficient algorithm implementations. 
+	- There are, however, cases where broadcasting is a bad idea because it leads to inefficient use of memory that slows computation.
+
+General Broadcasting Rules:
+	- When operating on two arrays, NumPy compares their shapes element-wise. It starts with the trailing dimensions, and works its way forward. Two dimensions are compatible when,
+		a. They are equal, or 
+		b. One of them is 1
+
+
+Soft-max : Broadcasting and the softmax function:
+	- Can think of softmax as a normalizing function used when your algorithm needs to classify two or more classes.
+	- softmax can be thought of as a normalizing function when your algorithm needs to classify two or more classes.
+	- Done by taking exponential (exp()) of each element in the matrix to get an exponent matrix & then dividing each row of this exponent matrix by its row-wise sum (using broadcasting)
+		- x.exp() / x.exp().sum(axis = 1, keepdims = True)
+
+
+
+To remember:
+	- np.exp(x) works for any np.array x and applies the exponential function to every coordinate
+	- the sigmoid function and its gradient
+	- image2vector is commonly used in deep learning
+	- np.reshape is widely used. In the future, you'll see that keeping your matrix/vector dimensions straight will go toward eliminating a lot of bugs.
+	- numpy has efficient built-in functions
+	- broadcasting is extremely useful
+
+===============
+
+sigmoid function, np.exp():
+
+import math
+
+def basic_sigmoid(x):
+    """
+    Compute sigmoid of x.
+
+    Arguments:
+    x -- A scalar
+
+    Return:
+    s -- sigmoid(x)
+    """
+    
+    ### START CODE HERE ### (≈ 1 line of code)
+    s = 1 / (1 + math.exp(-x))
+    ### END CODE HERE ###
+    
+    return s
+
+
+basic_sigmoid(3)
+0.9525741268224334
+
+=====
+
+### One reason why we use "numpy" instead of "math" in Deep Learning ###
+x = [1, 2, 3]
+basic_sigmoid(x) # you will see this give an error when you run it, because x is a vector.
+
+=====
+
+import numpy as np
+
+# example of np.exp
+x = np.array([1, 2, 3])
+print(np.exp(x)) # result is (exp(1), exp(2), exp(3))
+
+[  2.71828183   7.3890561   20.08553692]
+
+
+=====
+
+# example of vector operation
+x = np.array([1, 2, 3])
+print (x + 3)
+
+[4 5 6]
+
+=====
+
+np.exp?
+
+=======
+
+import numpy as np # this means you can access numpy functions by writing np.function() instead of numpy.function()
+
+def sigmoid(x):
+    """
+    Compute the sigmoid of x
+
+    Arguments:
+    x -- A scalar or numpy array of any size
+
+    Return:
+    s -- sigmoid(x)
+    """
+    
+    ### START CODE HERE ### (≈ 1 line of code)
+    s = 1 / (1 + np.exp(-x))
+    ### END CODE HERE ###
+    
+    return s
+	
+
+x = np.array([1, 2, 3])
+sigmoid(x)
+
+array([ 0.73105858,  0.88079708,  0.95257413])
+
+=======
+
+Sigmoid gradient:
+
+def sigmoid_derivative(x):
+    """
+    Compute the gradient (also called the slope or derivative) of the sigmoid function with respect to its input x.
+    You can store the output of the sigmoid function into variables and then use it to calculate the gradient.
+    
+    Arguments:
+    x -- A scalar or numpy array
+
+    Return:
+    ds -- Your computed gradient.
+    """
+    
+    ### START CODE HERE ### (≈ 2 lines of code)
+    s = sigmoid(x)
+    ds = s * (1 - s)
+    ### END CODE HERE ###
+    
+    return ds
+	
+
+x = np.array([1, 2, 3])
+print ("sigmoid_derivative(x) = " + str(sigmoid_derivative(x)))
+
+sigmoid_derivative(x) = [ 0.19661193  0.10499359  0.04517666]
+
+=======
+
+Reshaping arrays:
+
+def image2vector(image):
+    """
+    Argument:
+    image -- a numpy array of shape (length, height, depth)
+    
+    Returns:
+    v -- a vector of shape (length*height*depth, 1)
+    """
+    
+    ### START CODE HERE ### (≈ 1 line of code)
+    v = image.reshape( ( image.shape[0] * image.shape[1] * image.shape[2], 1 ) )
+    ### END CODE HERE ###
+    
+    return v
+	
+	
+# This is a 3 by 3 by 2 array, typically images will be (num_px_x, num_px_y,3) where 3 represents the RGB values
+image = np.array([[[ 0.67826139,  0.29380381],
+        [ 0.90714982,  0.52835647],
+        [ 0.4215251 ,  0.45017551]],
+
+       [[ 0.92814219,  0.96677647],
+        [ 0.85304703,  0.52351845],
+        [ 0.19981397,  0.27417313]],
+
+       [[ 0.60659855,  0.00533165],
+        [ 0.10820313,  0.49978937],
+        [ 0.34144279,  0.94630077]]])
+
+print ("image2vector(image) = " + str(image2vector(image)))
+
+image2vector(image) = [[ 0.67826139]
+ [ 0.29380381]
+ [ 0.90714982]
+ [ 0.52835647]
+ [ 0.4215251 ]
+ [ 0.45017551]
+ [ 0.92814219]
+ [ 0.96677647]
+ [ 0.85304703]
+ [ 0.52351845]
+ [ 0.19981397]
+ [ 0.27417313]
+ [ 0.60659855]
+ [ 0.00533165]
+ [ 0.10820313]
+ [ 0.49978937]
+ [ 0.34144279]
+ [ 0.94630077]]
+ 
+========
+ 
+Normalizing rows:
+
+def normalizeRows(x):
+    """
+    Implement a function that normalizes each row of the matrix x (to have unit length).
+    
+    Argument:
+    x -- A numpy matrix of shape (n, m)
+    
+    Returns:
+    x -- The normalized (by row) numpy matrix. You are allowed to modify x.
+    """
+    
+    ### START CODE HERE ### (≈ 2 lines of code)
+    # Compute x_norm as the norm 2 of x. Use np.linalg.norm(..., ord = 2, axis = ..., keepdims = True)
+    x_norm = np.linalg.norm(x, axis = 1, ord = 2, keepdims = True)
+    
+    print("Shape of x : " + str(x.shape))
+    print(x_norm)
+    print("Shape of x_norm : " + str(x_norm.shape))
+    
+    # Divide x by its norm.
+    x = x / x_norm
+    ### END CODE HERE ###
+
+    return x
+	
+	
+x = np.array([
+    [0, 3, 4],
+    [1, 6, 4]])
+print("normalizeRows(x) = " + str(normalizeRows(x)))
+
+Shape of x : (2, 3)
+[[ 5.        ]
+ [ 7.28010989]]
+Shape of x_norm : (2, 1)
+normalizeRows(x) = [[ 0.          0.6         0.8       ]
+ [ 0.13736056  0.82416338  0.54944226]]
+ 
+
+========
+
+Broadcasting and the softmax function:
+

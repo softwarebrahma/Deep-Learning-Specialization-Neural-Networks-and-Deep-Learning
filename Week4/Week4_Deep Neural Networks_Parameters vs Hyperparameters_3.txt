@@ -1,0 +1,46 @@
+
+Parameters vs Hyperparameters:
+
+Parameters that control the parameters Wl and bl are called Hyperparameters. These parameters control/determine the final value of the actual parameters of the model Wl and bl and hence are called Hyperparameters.
+
+Basic ones,
+
+	- Learning Rate, alpha
+	- Number of gradient descent iterations, num_iter
+	- Number of hidden layers, L
+	- Number of hidden (activation) units, nl
+	- Choice of activation functions, gl(zl)	(specially in the hidden layers)
+	
+Advanced ones,
+	- Momentum term
+	- Mini Batch Size
+	- Various forms of Regularization parameters
+	
+Later in the later course we'll see other hyper parameters as well such as the momentum term, the mini batch size, various forms of regularization parameters.
+
+=======
+
+Applied Deep Learning is an Empirical process that involves the Idea, Code, Experiment cycle.
+
+Since deep learning involves a lot of hyper parameters implementing deep neural networks involves trying out different settings/values for these hyper parameters in the process of tuning them.
+
+The tool to use is the learning curves where we plot the Cost Function (J) over the number of iterations & choose the setting/value for each hyper parameter that has the fastest learning/convergence & least cost.
+
+This process of trying out different values in the hyper parameter value range/space in a Idea, Code & Experiment cycle with Learning Curves is why we call it an Empirical process.
+
+
+Deep learning is used in different structured (Advertising, Search, Recommendations, etc) & un-structured (Image recognition, Voice recognition, NLP, etc) disciplines & intuition on the hyper parameter values from one may or may not be useful in the other. So, its recommended to go though the empirical process of exploring the hyper parameter value space to tune them.
+
+Even within the same discipline, the optimium hyper parameter values can change over time since the underlying computing infrastructure, the data set & networks change over time & these may result in better optimium values for the hyper parameters. So again its recommended to go through the empirical process of exploring the hyper parameter value space to tune them from time to time.
+
+There are advanced, systematic methods/ways to explore the hyper parameter value space that we will see later in the course.
+
+===============
+
+What does this have to do with the brain?:
+
+Very little. While there is a loose analogy between logistic regression activation unit and a single neuron, where a neuron gets signals (x/a) from other neurons, performs processing & fires a pulse (ycap) on the axon which then feeds into other neurons, the analogy ends there. A single brain neuron seems even more complex than currently undertood & it is not known if the learning that happens in the brain does it via the process of forward & backward propagation & gradient descent or by a completely different principle/method. While there was some analogy historically, current state of the field does not permit using tha analogy anymore.
+
+Its prudent to say that deep learning is an efficient way to learn & model a complex function from X to Y (X -> Y) in supervised learning.
+
+

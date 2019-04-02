@@ -1,0 +1,360 @@
+In [1]: import numpy as np
+
+In [2]: X = np.array([[1],[2],[3],[4]])
+
+In [7]: print (X.shape)
+(4, 1)
+
+In [8]: print (X.shape[0])
+4
+
+In [9]: print (X.shape[1])
+1
+
+In [10]: 
+
+======
+
+In [3]: X = np.random.randn(2,3)
+
+In [4]: print(X)
+[[-0.17134041 -1.64315533 -1.37125099]
+ [-0.79928683 -0.271367   -0.63954108]]
+
+In [6]: X = np.random.randn(2,3) * 0.01
+
+In [7]: print(X)
+[[-0.00857296 -0.0011287  -0.008617  ]
+ [-0.01203073  0.00630682 -0.00231908]]
+
+In [8]: Y = np.zeros((2,3))
+
+In [10]: print(Y)
+[[ 0.  0.  0.]
+ [ 0.  0.  0.]]
+
+In [11]: 
+
+======
+
+In [2]: np.sum?
+Signature: np.sum(a, axis=None, dtype=None, out=None, keepdims=<class 'numpy._globals._NoValue'>)
+Docstring:
+Sum of array elements over a given axis.
+
+Parameters
+----------
+a : array_like
+    Elements to sum.
+axis : None or int or tuple of ints, optional
+    Axis or axes along which a sum is performed.  The default,
+    axis=None, will sum all of the elements of the input array.  If
+    axis is negative it counts from the last to the first axis.
+
+    .. versionadded:: 1.7.0
+
+    If axis is a tuple of ints, a sum is performed on all of the axes
+    specified in the tuple instead of a single axis or all the axes as
+    before.
+dtype : dtype, optional
+    The type of the returned array and of the accumulator in which the
+    elements are summed.  The dtype of `a` is used by default unless `a`
+    has an integer dtype of less precision than the default platform
+    integer.  In that case, if `a` is signed then the platform integer
+    is used while if `a` is unsigned then an unsigned integer of the
+    same precision as the platform integer is used.
+out : ndarray, optional
+    Alternative output array in which to place the result. It must have
+    the same shape as the expected output, but the type of the output
+    values will be cast if necessary.
+keepdims : bool, optional
+    If this is set to True, the axes which are reduced are left
+    in the result as dimensions with size one. With this option,
+    the result will broadcast correctly against the input array.
+
+    If the default value is passed, then `keepdims` will not be
+    passed through to the `sum` method of sub-classes of
+    `ndarray`, however any non-default value will be.  If the
+    sub-classes `sum` method does not implement `keepdims` any
+    exceptions will be raised.
+
+Returns
+-------
+sum_along_axis : ndarray
+    An array with the same shape as `a`, with the specified
+    axis removed.   If `a` is a 0-d array, or if `axis` is None, a scalar
+    is returned.  If an output array is specified, a reference to
+    `out` is returned.
+
+See Also
+--------
+ndarray.sum : Equivalent method.
+
+cumsum : Cumulative sum of array elements.
+
+trapz : Integration of array values using the composite trapezoidal rule.
+
+mean, average
+
+Notes
+-----
+Arithmetic is modular when using integer types, and no error is
+raised on overflow.
+
+The sum of an empty array is the neutral element 0:
+
+>>> np.sum([])
+0.0
+
+Examples
+--------
+>>> np.sum([0.5, 1.5])
+2.0
+>>> np.sum([0.5, 0.7, 0.2, 1.5], dtype=np.int32)
+1
+>>> np.sum([[0, 1], [0, 5]])
+6
+>>> np.sum([[0, 1], [0, 5]], axis=0)
+array([0, 6])
+>>> np.sum([[0, 1], [0, 5]], axis=1)
+array([1, 5])
+
+If the accumulator is too small, overflow occurs:
+
+>>> np.ones(128, dtype=np.int8).sum(dtype=np.int8)
+-128
+File:      /var/lib/python/site-packages/numpy/core/fromnumeric.py
+Type:      function
+
+In [3]: 
+
+========
+
+In [3]: for i in range(10): print(i)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+In [4]: for i in range(0,10): print(i)
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+In [5]: 
+
+=======
+
+In [3]: x = np.array([[1,2],[3,4]])
+
+In [4]: print(x)
+[[1 2]
+ [3 4]]
+
+In [5]: x[x > 1]
+Out[5]: array([2, 3, 4])
+
+In [6]: y = x[x > 1]
+
+In [7]: print(y.shape)
+(3,)
+
+In [8]: print(y)
+[2 3 4]
+
+In [9]: z = x > 1
+
+In [10]: print(z.shape)
+(2, 2)
+
+In [11]: print(z)
+[[False  True]
+ [ True  True]]
+
+In [12]: 
+
+=========
+
+In [3]: x = np.array([[1.5,2.49],[3.2,4.5]])
+
+In [4]: 
+
+In [4]: print(x)
+[[ 1.5   2.49]
+ [ 3.2   4.5 ]]
+
+In [5]: print(x.round)
+<built-in method round of numpy.ndarray object at 0x7f8948b49490>
+
+In [6]: print(np.round(x))
+[[ 2.  2.]
+ [ 3.  4.]]
+
+In [7]: print(np.round(x))
+[[ 2.  2.]
+ [ 3.  4.]]
+
+In [8]: print(x)
+[[ 1.5   2.49]
+ [ 3.2   4.5 ]]
+
+In [9]: print(np.round(x))
+[[ 2.  2.]
+ [ 3.  4.]]
+
+In [10]: np.round?
+Signature: np.round(a, decimals=0, out=None)
+Docstring:
+Round an array to the given number of decimals.
+
+Refer to `around` for full documentation.
+
+See Also
+--------
+around : equivalent function
+File:      /var/lib/python/site-packages/numpy/core/fromnumeric.py
+Type:      function
+
+In [11]: np.around?
+Signature: np.around(a, decimals=0, out=None)
+Docstring:
+Evenly round to the given number of decimals.
+
+Parameters
+----------
+a : array_like
+    Input data.
+decimals : int, optional
+    Number of decimal places to round to (default: 0).  If
+    decimals is negative, it specifies the number of positions to
+    the left of the decimal point.
+out : ndarray, optional
+    Alternative output array in which to place the result. It must have
+    the same shape as the expected output, but the type of the output
+    values will be cast if necessary. See `doc.ufuncs` (Section
+    "Output arguments") for details.
+
+Returns
+-------
+rounded_array : ndarray
+    An array of the same type as `a`, containing the rounded values.
+    Unless `out` was specified, a new array is created.  A reference to
+    the result is returned.
+
+    The real and imaginary parts of complex numbers are rounded
+    separately.  The result of rounding a float is a float.
+
+See Also
+--------
+ndarray.round : equivalent method
+
+ceil, fix, floor, rint, trunc
+
+
+Notes
+-----
+For values exactly halfway between rounded decimal values, NumPy
+rounds to the nearest even value. Thus 1.5 and 2.5 round to 2.0,
+-0.5 and 0.5 round to 0.0, etc. Results may also be surprising due
+to the inexact representation of decimal fractions in the IEEE
+floating point standard [1]_ and errors introduced when scaling
+by powers of ten.
+
+References
+----------
+.. [1] "Lecture Notes on the Status of  IEEE 754", William Kahan,
+       http://www.cs.berkeley.edu/~wkahan/ieee754status/IEEE754.PDF
+.. [2] "How Futile are Mindless Assessments of
+       Roundoff in Floating-Point Computation?", William Kahan,
+       http://www.cs.berkeley.edu/~wkahan/Mindless.pdf
+
+Examples
+--------
+>>> np.around([0.37, 1.64])
+array([ 0.,  2.])
+>>> np.around([0.37, 1.64], decimals=1)
+array([ 0.4,  1.6])
+>>> np.around([.5, 1.5, 2.5, 3.5, 4.5]) # rounds to nearest even value
+array([ 0.,  2.,  2.,  4.,  4.])
+>>> np.around([1,2,3,11], decimals=1) # ndarray of ints is returned
+array([ 1,  2,  3, 11])
+>>> np.around([1,2,3,11], decimals=-1)
+array([ 0,  0,  0, 10])
+File:      /var/lib/python/site-packages/numpy/core/fromnumeric.py
+Type:      function
+
+In [12]: 
+
+=======
+
+
+In [1]: import numpy as np
+
+In [2]: Y = np.array([[0.49, 0.51],[0.50, 0.99]])
+
+In [3]: print(Y)
+[[ 0.49  0.51]
+ [ 0.5   0.99]]
+
+In [4]: Z = (Y > 0.5).astype(int)
+
+In [5]: print(Z)
+[[0 1]
+ [0 1]]
+
+In [6]: A = np.where(Y > 0.5, 1, 0)
+
+In [7]: print(A)
+[[0 1]
+ [0 1]]
+
+In [8]: 
+
+
+=======
+
+In [12]: Y = np.array([[0,1,1]])
+
+In [13]: print(Y.shape)
+(1, 3)
+
+In [14]: print(Y)
+[[0 1 1]]
+
+In [15]: P = np.array([[0,1,0]])
+
+In [16]: print(P)
+[[0 1 0]]
+
+In [17]: print(np.dot(Y, P.T))
+[[1]]
+
+In [18]: print(np.dot(1-Y, 1-P.T))
+[[1]]
+
+In [19]: print((np.dot(Y, P.T) + np.dot(1-Y, 1-P.T))/Y.size)
+[[ 0.66666667]]
+
+In [20]: print(((np.dot(Y, P.T) + np.dot(1-Y, 1-P.T))/Y.size) * 100)
+[[ 66.66666667]]
+
+In [21]: print(Y.size)
+3
+
+In [22]: 
+
+=======
+

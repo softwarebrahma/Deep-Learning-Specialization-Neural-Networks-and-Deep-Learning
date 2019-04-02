@@ -1,0 +1,225 @@
+
+2) Vectorization : 
+
+dot/outer/elementwise product:
+	- Note that np.dot() performs a matrix-matrix or matrix-vector multiplication. This is different from np.multiply() and the * operator (which is equivalent to  .* in Matlab/Octave), which performs an element-wise multiplication.
+	
+Difference between manual implementation & numPy methods:
+
+import time
+
+x1 = [9, 2, 5, 0, 0, 7, 5, 0, 0, 0, 9, 2, 5, 0, 0]
+x2 = [9, 2, 2, 9, 0, 9, 2, 5, 0, 0, 9, 2, 5, 0, 0]
+
+### CLASSIC DOT PRODUCT OF VECTORS IMPLEMENTATION ###
+tic = time.process_time()
+dot = 0
+for i in range(len(x1)):
+    dot+= x1[i]*x2[i]
+toc = time.process_time()
+print ("dot = " + str(dot) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### CLASSIC OUTER PRODUCT IMPLEMENTATION ###
+tic = time.process_time()
+outer = np.zeros((len(x1),len(x2))) # we create a len(x1)*len(x2) matrix with only zeros
+for i in range(len(x1)):
+    for j in range(len(x2)):
+        outer[i,j] = x1[i]*x2[j]
+toc = time.process_time()
+print ("outer = " + str(outer) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### CLASSIC ELEMENTWISE IMPLEMENTATION ###
+tic = time.process_time()
+mul = np.zeros(len(x1))
+for i in range(len(x1)):
+    mul[i] = x1[i]*x2[i]
+toc = time.process_time()
+print ("elementwise multiplication = " + str(mul) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### CLASSIC GENERAL DOT PRODUCT IMPLEMENTATION ###
+W = np.random.rand(3,len(x1)) # Random 3*len(x1) numpy array
+tic = time.process_time()
+gdot = np.zeros(W.shape[0])
+for i in range(W.shape[0]):
+    for j in range(len(x1)):
+        gdot[i] += W[i,j]*x1[j]
+toc = time.process_time()
+print ("gdot = " + str(gdot) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+
+dot = 278
+ ----- Computation time = 0.1620619999997963ms
+outer = [[ 81.  18.  18.  81.   0.  81.  18.  45.   0.   0.  81.  18.  45.   0.
+    0.]
+ [ 18.   4.   4.  18.   0.  18.   4.  10.   0.   0.  18.   4.  10.   0.
+    0.]
+ [ 45.  10.  10.  45.   0.  45.  10.  25.   0.   0.  45.  10.  25.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [ 63.  14.  14.  63.   0.  63.  14.  35.   0.   0.  63.  14.  35.   0.
+    0.]
+ [ 45.  10.  10.  45.   0.  45.  10.  25.   0.   0.  45.  10.  25.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [ 81.  18.  18.  81.   0.  81.  18.  45.   0.   0.  81.  18.  45.   0.
+    0.]
+ [ 18.   4.   4.  18.   0.  18.   4.  10.   0.   0.  18.   4.  10.   0.
+    0.]
+ [ 45.  10.  10.  45.   0.  45.  10.  25.   0.   0.  45.  10.  25.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]
+ [  0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.   0.
+    0.]]
+ ----- Computation time = 0.3242939999998917ms
+elementwise multiplication = [ 81.   4.  10.   0.   0.  63.  10.   0.   0.   0.  81.   4.  25.   0.   0.]
+ ----- Computation time = 0.17322100000027874ms
+gdot = [ 21.91831751  32.16536164  21.18707196]
+ ----- Computation time = 0.23713999999985802ms
+ 
+ 
+===========
+
+x1 = [9, 2, 5, 0, 0, 7, 5, 0, 0, 0, 9, 2, 5, 0, 0]
+x2 = [9, 2, 2, 9, 0, 9, 2, 5, 0, 0, 9, 2, 5, 0, 0]
+
+### VECTORIZED DOT PRODUCT OF VECTORS ###
+tic = time.process_time()
+dot = np.dot(x1,x2)
+toc = time.process_time()
+print ("dot = " + str(dot) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### VECTORIZED OUTER PRODUCT ###
+tic = time.process_time()
+outer = np.outer(x1,x2)
+toc = time.process_time()
+print ("outer = " + str(outer) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### VECTORIZED ELEMENTWISE MULTIPLICATION ###
+tic = time.process_time()
+mul = np.multiply(x1,x2)
+toc = time.process_time()
+print ("elementwise multiplication = " + str(mul) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+### VECTORIZED GENERAL DOT PRODUCT ###
+tic = time.process_time()
+dot = np.dot(W,x1)
+toc = time.process_time()
+print ("gdot = " + str(dot) + "\n ----- Computation time = " + str(1000*(toc - tic)) + "ms")
+
+
+dot = 278
+ ----- Computation time = 0.17142299999983734ms
+outer = [[81 18 18 81  0 81 18 45  0  0 81 18 45  0  0]
+ [18  4  4 18  0 18  4 10  0  0 18  4 10  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [63 14 14 63  0 63 14 35  0  0 63 14 35  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [81 18 18 81  0 81 18 45  0  0 81 18 45  0  0]
+ [18  4  4 18  0 18  4 10  0  0 18  4 10  0  0]
+ [45 10 10 45  0 45 10 25  0  0 45 10 25  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]
+ [ 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0]]
+ ----- Computation time = 0.1373270000000204ms
+elementwise multiplication = [81  4 10  0  0 63 10  0  0  0 81  4 25  0  0]
+ ----- Computation time = 0.11248699999999445ms
+gdot = [ 21.91831751  32.16536164  21.18707196]
+ ----- Computation time = 0.22078500000022316ms
+ 
+ 
+=======
+
+
+Implement the L1 and L2 loss functions:
+
+numpy vectorized version of the L1 loss:
+
+Note : Function abs(x) (absolute value of x) can work with vectors aswell.
+
+L1(ŷ ,y) = ∑i=0m | y(i)− ŷ(i) |
+
+
+def L1(yhat, y):
+    """
+    Arguments:
+    yhat -- vector of size m (predicted labels)
+    y -- vector of size m (true labels)
+    
+    Returns:
+    loss -- the value of the L1 loss function defined above
+    """
+    
+    ### START CODE HERE ### (≈ 1 line of code)
+    print(abs(y - yhat))
+    loss = abs(y - yhat).sum()
+    ### END CODE HERE ###
+    
+    return loss
+	
+	
+yhat = np.array([.9, 0.2, 0.1, .4, .9])
+y = np.array([1, 0, 0, 1, 1])
+print("L1 = " + str(L1(yhat,y)))
+
+
+[ 0.1  0.2  0.1  0.6  0.1]
+L1 = 1.1
+
+
+==============
+
+
+numpy vectorized version of the L2 loss:
+
+Note : Function np.dot() can also be used to efficiently perform element-wise square of vector elements.
+	- if  x = [x1,x2,...,xn], then np.dot(x,x) =  ∑j=0n x(j) ^ 2 
+
+
+L2(ŷ ,y) = ∑i=0m ( y(i) − ŷ (i) ) ^ 2
+
+
+def L2(yhat, y):
+    """
+    Arguments:
+    yhat -- vector of size m (predicted labels)
+    y -- vector of size m (true labels)
+    
+    Returns:
+    loss -- the value of the L2 loss function defined above
+    """
+    
+    ### START CODE HERE ### (≈ 1 line of code)
+    loss = np.dot(y - yhat, y - yhat)
+    ### END CODE HERE ###
+    
+    return loss
+	
+	
+yhat = np.array([.9, 0.2, 0.1, .4, .9])
+y = np.array([1, 0, 0, 1, 1])
+print("L2 = " + str(L2(yhat,y)))
+
+
+L2 = 0.43
+
+=============
+
+
+To remember:
+	- Vectorization is very important in deep learning. It provides computational efficiency and clarity.
+	- You have reviewed the L1 and L2 loss.
+	- You are familiar with many numpy functions such as np.sum, np.dot, np.multiply, np.maximum, etc...
+

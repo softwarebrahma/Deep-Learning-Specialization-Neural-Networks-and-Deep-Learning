@@ -1,0 +1,83 @@
+ 
+Computations in learning in a neural n/w are organized as forward propagation & a separate backward propagation
+
+Logistic regression Notation:
+
+Unlike before we will stack the training set of m training samples (x1,yi)...(xm,ym) where x = xn dimensional vector in m columns such that the feature matrix X is an (xn, m) matrix with m columns & xn rows.
+
+So the logistic regression hypothesis becomes,
+
+y^ = sigmoid(w'x + b)
+	- Where the parameters w is an xn dimensional vector & b is a real number.
+	- And sigmoid(z) = 1 / 1 + e ^ -z
+	- We want y^i ~= yi
+
+====
+
+Logistic regression Cost Function:
+
+Now to train / learn the above parameters w & b of the logistic regression model we need the cost function.
+
+We first formulate an Loss or error function for a single training example. We cannot use the squared error cost function because it results in an optimization function that is non-convex resulting in local (multiple) & global optima causing difficulty when using gradient descent to train.
+
+So we use the Loss function,
+	L(y^,y) = - ( y * log(y^) + (1-y) * log(1 - y^) )
+	
+This is better & achieved the same result as squared error function in that,
+ If y = 0 then L(y^,y) = -log(1 - y^) requires log(1 - y^) to be large so that result is small which requires y^ to be small which for sigmoid is near zero.
+ If y = 1 then L(y^,y) = -log(y^) requires log(y^) to be large so that result is small which requires y^ to be large which for sigmoid is near one.
+ 
+Now to compute Cost Function for the entire training set we need to take the average of the Loss/Error function for the entire training set,
+
+J(w,b) = 1 / m * sum ( L(y^,y) )  => - 1 / m * sum ( y * log(y^) + (1 - y) * log (1 - y^) )
+
+====
+
+Gradient Descent:
+
+With gradient descent we start with initial values for the parameters w & b and take multiple descent iterations/steps in the steepest downward direction of the cost function's wave function until we reach the global minima.
+
+With a convex optimization function we can initalize the parameters w & b to zero or some random value. Usually random initalize is not done for Logistic regression...but since its a convex function it will always converge to the global minima or near global minima.
+
+The formula for gradient descent for cost function J(w,b) is,
+
+Repeat {
+
+w = w - alpha * dj(w,b) / dw  or  simply in python as,  w = w - alpha * dw
+
+b = b - alpha * dj(w,b) / db  or  simply in python as, b = b - alpha * db
+
+} until convergence
+
+Where,
+	- alpha is the learning rate that controls the amount of descent in each iterations/step.
+	- dw is the partial derivative term w.r.t to w which essentially means the amount by which the cost function slopes in the direction of w.
+	- bb is the partial derivative term w.r.t to b which essentially means the amount by which the cost function slopes in the direction of d.
+
+Remember that the definition of a derivative of a function is the slope of a function at the point and the slope of the function is really the height divided by the width.
+
+Technically & strictly in Calculus, if the function is a function of more than one parameter/variable then we use the term d (dow) to refer to the partial derivative and if its one then we use the term d.
+
+====
+
+Derivatives (a.k.a Slope):
+
+Derivative of a function means the slope of the function and the slope of a function can be different at different points in the function.
+
+Eg: Functions like f(a) = 3a; f(a) = a^2; f(a) = a^3; f(a) = log(a)
+
+f(a) = 3a -> Slope/Derivative is a constant 3, at all points in the straight line function.
+
+f(a) = a^2 -> Slope/Derivative is variable and is = 2 * a.
+
+f(a) = a^3 -> Slope/Derivative is variable and is = 3 * a ^ 2.
+
+f(a) = log(a) -> Slope/Derivative is again variable and is = 1 / a.
+
+Generally derivate of a function (formula for their slope) can be looked up.
+
+=====
+
+
+
+

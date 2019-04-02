@@ -1,0 +1,148 @@
+
+Why deep representations?:
+
+For a neural network to be efficent depth is more important than size, how deep (number of hidden layers) is more important that how big (number of activation units).
+
+Initial layers
+	- Feature detector or edge detector by grouping together pixels (each neuron detects an edge orientation), small areas of image - fits/learns simpler functions
+	- low level audio wave form features (low tone/pitch, high tone/pitch, white noise, etc)
+
+Deeper layers
+	- compose/Group the features or edges together & detect facial parts (each neuron detects a facial part like nose or eye), larger areas of image - compose simpler functions together & use it to fit/learn more complex functions
+	- compose/Group the low level wave form features together & detect basic Units of sound, called phonemes (cat, C A T)
+
+Deeperest layers
+	- Compose/Group the facial parts together & detect faces, largest areas of image - Compose complex functions together & use it to fit/learn highly complex functions
+	- Compose/Group the phonemes together & detect words
+	- Compose/Group words together to detect phrases/sentences
+
+
+Basically a Simple to complex, Hirearchical or Compositional representation (More when learning Convolutional networks).
+
+Can be thought of as being similar to the brain from this perspective, though this comparison is dangerous.
+
+==
+
+Second intuition comes from Circuit Theory which roughly states this,
+
+There are functions that you can compute with a SMALL L-layered DEEP neural network that for a SHALLOW neural network would require exponentially large/more number of hidden activation units.
+
+Eg: Feature parity or XOR of all the features, y = x1 XOR x2 XOR x3...xn-1 XOR xn
+
+This can be computed with a simple deep network of complexity O(logn)
+
+However, if it were to be computed with a single hidden layer shallow network it might require 2 ^ n-1 units or have a complexity of O(2 ^ n).
+
+========
+
+Building blocks of deep neural networks:
+
+Below are the forward & backward prop functions for each layer l in a L-layered neural network.
+
+Forward Propogation:
+
+Input: Al-1
+
+Output: Al
+
+Uses: Wl, bl
+
+Involves computing Zl.
+
+Cache output: Zl
+
+Zl = np.dot(Wl, Al-1) + bl
+Al = gl(Zl)
+
+
+Backward Propogation:
+
+Input: dAl
+
+Output: dAl-1
+
+Uses: The cached Zl, Wl, bl
+
+Involves computing dZl, dWl, dbl
+
+Cache output: dWl, dbl
+
+<formula>
+
+Gradient descent after forward & backward propagation:
+
+Wl = Wl - alpha * dWl
+bl = bl - alpha * dbl
+
+So basically we go from A0 (X) to AL (ycap) & then from dAL to dA0. But we won't compute dA0. Full details below.
+
+========
+
+Vectorized Forward and Backward Propagation:
+
+Vectorized Forward Propagation:
+
+Initialize A0 with X.
+
+Given Al-1, Wl, bl
+
+Zl = np.dor(Wl, Al-1) + bl
+
+Al = gl(Zl)
+
+We computed Zl, Al
+
+==
+
+Given Al, Y
+
+Ycap => Al
+
+For binary classification,
+
+L(Ycap, Y) = -1 / m * np.sum(np.dot(Y, np.log(Al)) + np.dot(1 - Y, np.log(1 - Al)))
+
+dAl => dL(Ycap, Y)/dAl = -Y / A + (1 - Y) / (1 - A)
+
+==
+
+Vectorized Backward Propagation:
+
+Given dAl, Wl, bl, Zl
+
+dZl = np.multiply(dAl, gl'(Zl))
+
+dWl = 1 / m * np.dot(dZl, Al-1.T)
+
+dbl = 1 / m * np.sum(dZl, axis = 1, keepdims = True)
+
+dAl-1 = np.dot(Wl.T, dZl)
+
+
+The deduction above comes from the chain rule of calculus where,
+
+dZl = np.multiply(np.dot(Wl+1.T, dZl+1), gl'(Zl))
+
+
+We computed dZl, dWl, dbl, dAl-1
+
+==
+
+Vectorized Gradient descent after forward & backward propagation:
+
+With Wls, bls, dWls, dbls
+
+Wl = Wl - alpha * dWl
+
+bl = bl - alpha * dbl
+
+====
+
+So in summary, in one gradient descent iteration,
+	- We go from A0 (which is X) to AL with forward propagation caching Zl for each layer, then 
+	- Compute the Loss L(Ycap, Y) where Ycap = AL, then 
+	- Compute the derivate of the loss w.r.t to AL (dAL)
+	- We go from dAL to dA0 (discarding dA0) computing dWl, dbl for each layer for gradient descent
+	- We then perform gradient descent to update the parameters Wl & bl for each layer.
+	
+

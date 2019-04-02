@@ -1,0 +1,372 @@
+
+In [17]: for i in range(1, len(x)): print(i)
+1
+2
+3
+4
+
+In [18]: print(len(x))
+5
+
+In [19]: print(x)
+[5 4 3 2 1]
+
+In [20]: for i in range(1, len(x)): print(x[i])
+4
+3
+2
+1
+
+In [21]: print(x[0])
+5
+
+In [22]: print(x[5])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(x[5])
+IndexError: index 5 is out of bounds for axis 0 with size 5
+
+In [23]: print(x[4])
+1
+
+In [24]: 
+
+==========
+
+In [2]: import numpy as np
+
+In [3]: W = np.random.randn(2,3) * 0.01
+
+In [4]: b = np.zeros((2,1))
+
+In [5]: print(W, b)
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]] [[ 0.]
+ [ 0.]]
+
+In [6]: c = (W, b)
+
+In [7]: print(type(c))
+<class 'tuple'>
+
+In [8]: print(c[0])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [9]: print(c[1])
+[[ 0.]
+ [ 0.]]
+
+In [10]: print(c[2])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(c[2])
+IndexError: tuple index out of range
+
+In [11]: print(c["W"])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(c["W"])
+TypeError: tuple indices must be integers or slices, not str
+
+
+In [12]: X = np.random.randn(3, 4)
+
+In [13]: print(X)
+[[ 0.01203043 -1.28721141 -0.27260818  0.97062694]
+ [-0.00890588  0.44395601  0.22731599 -1.06112243]
+ [ 0.4531447   0.46430455 -1.24780145  0.06303374]]
+
+In [14]: Z = np.dot(W, X) + b
+
+In [15]: print(Z)
+[[-0.00506479 -0.04808293  0.00661508  0.02780991]
+ [-0.0016875  -0.00595775  0.00409026  0.00157   ]]
+
+In [16]: A = 1 / (1 + np.exp(-Z))
+
+In [17]: print(A)
+[[ 0.49873381  0.48798158  0.50165376  0.50695203]
+ [ 0.49957813  0.49851057  0.50102256  0.5003925 ]]
+
+In [18]: c2 = (c, (Z, A))
+
+In [19]: print(type(c2))
+<class 'tuple'>
+
+In [20]: print(c2[1])
+(array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]]))
+
+In [21]: print(c2[0])
+(array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]]))
+
+In [22]: print(c2[2])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(c2[2])
+IndexError: tuple index out of range
+
+In [23]: print(c2[0][0])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [24]: print(c2[0][1])
+[[ 0.]
+ [ 0.]]
+
+In [25]: print(c2[1][0])
+[[-0.00506479 -0.04808293  0.00661508  0.02780991]
+ [-0.0016875  -0.00595775  0.00409026  0.00157   ]]
+
+In [26]: print(c2[1][1])
+[[ 0.49873381  0.48798158  0.50165376  0.50695203]
+ [ 0.49957813  0.49851057  0.50102256  0.5003925 ]]
+
+In [27]: 
+
+==========
+
+In [27]: param = {}
+
+In [28]: param["W"] = W
+
+In [29]: print(param["W"])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [30]: param["b"] = b
+
+In [31]: param["Z"] = Z
+
+In [32]: param["A"] = A
+
+In [33]: print(len(param))
+4
+
+In [34]: print(param[0])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(param[0])
+KeyError: 0
+
+In [35]: print(param[0])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(param[0])
+KeyError: 0
+
+In [36]: print(param["W"])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [37]: print(len(param))
+4
+
+In [38]: print(len(W))
+2
+
+In [39]: print(W.shape)
+(2, 3)
+
+In [40]: print(len(A))
+2
+
+In [41]: print(A.shape)
+(2, 4)
+
+In [42]: print(type(param))
+<class 'dict'>
+
+
+
+In [43]: print(len(param))
+4
+
+In [44]: print(len(param) / 2)
+2.0
+
+In [45]: print(len(param) // 2)
+2
+
+In [46]: 
+
+==========
+
+In [46]: param["W1"] = W
+
+In [47]: print(len(param))
+5
+
+In [48]: print(param["W" + str(1)])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [49]: print(param['W' + str(1)])
+[[ 0.03468093  0.0048022  -0.01200333]
+ [ 0.00390499  0.0018672  -0.00379095]]
+
+In [50]: param["W1"] = b
+
+In [51]: print(param["W" + str(1)])
+[[ 0.]
+ [ 0.]]
+
+In [52]: print(param['W' + str(1)])
+[[ 0.]
+ [ 0.]]
+
+In [53]: print(param['W' + str(2)])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(param['W' + str(2)])
+KeyError: 'W2'
+
+In [54]: print(param["W" + str(2)])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(param["W" + str(2)])
+KeyError: 'W2'
+
+In [55]: 
+
+==========
+
+In [55]: 
+
+In [55]: caches = []
+
+In [56]: print(type(caches))
+<class 'list'>
+
+In [57]: caches.append(c2)
+
+In [58]: print(type(caches))
+<class 'list'>
+
+In [59]: print(caches)
+[((array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]])), (array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]])))]
+
+In [60]: print(caches.count)
+<built-in method count of list object at 0x7f3b5ce8e608>
+
+In [61]: print(len(caches))
+1
+
+In [62]: caches.append(c2)
+
+In [63]: print(len(caches))
+2
+
+In [64]: print(caches)
+[((array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]])), (array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]]))), ((array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]])), (array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]])))]
+
+In [65]: print(caches[0])
+((array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]])), (array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]])))
+
+In [66]: print(caches[1])
+((array([[ 0.03468093,  0.0048022 , -0.01200333],
+       [ 0.00390499,  0.0018672 , -0.00379095]]), array([[ 0.],
+       [ 0.]])), (array([[-0.00506479, -0.04808293,  0.00661508,  0.02780991],
+       [-0.0016875 , -0.00595775,  0.00409026,  0.00157   ]]), array([[ 0.49873381,  0.48798158,  0.50165376,  0.50695203],
+       [ 0.49957813,  0.49851057,  0.50102256,  0.5003925 ]])))
+
+In [67]: 
+
+==========
+
+In [1]: import numpy as np
+
+In [2]: Y = np.random.randn(1, 5)
+
+In [3]: print(Y)
+[[-0.14494304  0.02433307 -0.91745181  0.17053908 -0.09706565]]
+
+In [4]: print(1 - Y)
+[[ 1.14494304  0.97566693  1.91745181  0.82946092  1.09706565]]
+
+In [5]: Y = np.squeeze(Y)
+
+In [6]: print(Y)
+[-0.14494304  0.02433307 -0.91745181  0.17053908 -0.09706565]
+
+In [7]: print(Y.shape)
+(5,)
+
+In [8]: A = np.random.randn(1, 1)
+
+In [9]: print(A.shape)
+(1, 1)
+
+In [10]: A = np.squeeze(A)
+
+In [11]: print(A.shape)
+()
+
+In [12]: print(A)
+-0.019692097114916783
+
+In [13]: A = np.random.randn(1, 1)
+
+In [14]: print(A.shape)
+(1, 1)
+
+In [15]: print(A)
+[[-0.66647169]]
+
+In [16]: A = np.squeeze(A)
+
+In [17]: print(A.shape)
+()
+
+In [18]: print(A)
+-0.6664716850246794
+
+In [19]: 
+
+==========
+
+In [1]: import numpy as np
+
+In [2]: X = np.random.randn(3,2)
+
+In [3]: print(X)
+[[-0.02338752 -1.03229802]
+ [-1.50490182  0.85322725]
+ [-0.18762926  1.78834392]]
+
+In [4]: for l in reversed(range(len(X))): print(l)
+2
+1
+0
+
+In [5]: print(len(X))
+3
+
+In [6]: for l in reversed(range(len(X)-1)): print(l)
+1
+0
+
+In [7]: 
+
+==========
+

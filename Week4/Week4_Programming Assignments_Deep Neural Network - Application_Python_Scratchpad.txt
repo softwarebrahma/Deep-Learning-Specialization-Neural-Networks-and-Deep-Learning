@@ -1,0 +1,67 @@
+
+In [1]: import numpy as np
+
+In [2]: Y = np.array([[1,2,3,4,5]])
+
+In [3]: print(Y.shape)
+(1, 5)
+
+In [4]: print(Y)
+[[1 2 3 4 5]]
+
+In [6]: print(Y[0,0])
+1
+
+In [7]: print(Y[0,1])
+2
+
+In [8]: print(Y[0,2])
+3
+
+In [9]: print(Y[0,3])
+4
+
+In [10]: print(Y[0,4])
+5
+
+In [11]: print(Y[0][4])
+5
+
+In [12]: print(Y[0][3])
+4
+
+In [13]: print(Y[0,3])
+4
+
+In [14]: print(Y[0][4])
+5
+
+In [16]: print(Y[0,4])
+5
+
+In [17]: 
+
+In [19]: print(Y[0,1])
+2
+
+In [20]: print(Y[0:4,1])
+[2]
+
+In [21]: print(Y[0:4,1:2])
+[[2]]
+
+In [22]: 
+
+In [23]: print(Y[1,1])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    print(Y[1,1])
+IndexError: index 1 is out of bounds for axis 0 with size 1
+
+In [24]: print(Y[1:4,1:2])
+[]
+
+In [25]: 
+
+==========
+

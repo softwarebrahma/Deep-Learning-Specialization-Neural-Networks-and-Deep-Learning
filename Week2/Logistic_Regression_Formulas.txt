@@ -1,0 +1,49 @@
+
+
+z = w'x + b
+
+a = ycap = sig(z)
+
+dz = a - y
+
+dw = x * dz
+
+db = dz
+
+l = - y * log(a) - (1 - y) * log(1 - a)
+
+
+J(W,B) = - (1 / m) * sum( yi * log(ai) + (1 - yi) * log(1 - ai) ) = - (1 / m) * sum( Y * log(A) + (1 - Y) * log(1 - A) )
+
+
+dW = 1 / m * sum( xi * dzi ) = 1 / m * ( X * ( A - Y)')
+
+dB = 1 / m * sum( dzi) = 1 / m * sum( (A - Y) )
+
+
+W = W - alpha * dW
+
+B = B - alpha * dB
+
+===
+
+J = u + v - w
+
+J = (a * b) + (a * c) - (b + c)
+
+J = a * (b + c) - (b + c) ~= a * (b + c) - 1 * (b + c)
+
+J = (a - 1) * (b + c)
+
+
+Proof:
+
+(a - 1) * (b + c)
+
+a * b + a * c - b - c
+
+a * (b + c) - (b + c) 
+
+===
+
+Tool to ask,share feedback,share agenda,MOM,etc via voice/video & transcribe as artifact for followup.

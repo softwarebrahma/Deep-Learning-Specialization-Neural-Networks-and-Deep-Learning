@@ -1,0 +1,80 @@
+
+Deep L-layer neural network:
+
+When counting the number of layers in a model/neural network we include only the hidden & output layers. The input layer is not included.
+
+The more the number of hidden layers a model/neural network has the more deep it is. So shallow vs deep is a degree of the number of hidden layers.
+
+Logistic Regression is technically a one layer neural network (with zero hidden layers) & is therefore a shallow model.
+
+A single hidden layer neural network or a 2 layer neural network (2 layer NN) is also shallow but less shallow than logistic regression.
+
+A two hidden layer neural network or a 3 layer neural network is more deeper than a single hidden layer neural network.
+
+Deep models are able to learn complex functions that shallow models are unable to.
+	- For a given problem, its hard to determine the number of hidden layers. Start with logistic regression, then single hidden layer followed by two & then treat the number of hidden layers as a hyper parameter & compare against the cross-validation data in the development set to choose the right one.
+	
+
+Deep Neural Network Notation:
+
+The input layer/feature vector which is not considered as a neural network layer is layer zero.
+
+L refers to the number of layers of a neural network.
+
+nl refers to the number of units in layer l.
+
+al refers to the activations (activation units) in layer l.
+	- where, al = gl(zl)
+	
+wl & bl refer to the weights & biases in layer l.
+
+n0 is the feature vector x's size nx. nL is 1.
+
+a0 is the feature vector x and aL is the prediction ycap.
+
+===========
+
+Forward Propagation in a Deep Network:
+
+Repeat the single hidden layer forward prop multiple times.
+
+for l in range (1 to L)
+
+	Zl = Wl * Al-1 + bl
+
+	Al = gl(Zl)
+
+Though explicit loops should be avoided, in this case the loop over the number of layers for forward propagation can't be avoided.
+
+===========
+
+Getting your matrix dimensions right:
+
+Dimensions of matrices & vectors.
+
+Wl and bl:
+
+Wl will have dimensions nl * nl-1 (nl, nl-1)
+
+bl will have dimensions nl * 1 (nl, 1)
+
+This will then mean that,
+
+dWl will also have dimensions nl * nl-1 (nl, nl-1)
+
+db1 will also have dimensions nl * 1 (nl, 1)
+
+
+Zl and Al:
+
+Zl will have dimensions nl * m (nl, m)
+
+Al will also have dimensions nl * m (nl, m)
+	- X is basically a special case of A0 of same dimensions.
+
+This will then mean that,
+
+dZl will also have dimensions nl * m (nl, m)
+
+dAl will then also have dimensions nl * m (nl, m)
+

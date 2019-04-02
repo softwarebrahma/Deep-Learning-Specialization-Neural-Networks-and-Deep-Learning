@@ -1,0 +1,106 @@
+
+Why do you need non-linear activation functions?:
+
+If we use a linear activation function, a = g(z) or an identity activation function, a = z (no activation function at all) we see that the neural network just computes a linear function of the input. 
+
+So if we use a linear or in this cae identity activation function we can write the forward prop as below,
+
+Z1 = W1 * X + b1
+A1 = Z1
+Z2 = W2 * A1 + b2
+A2 = Z2
+
+Now A2 can be written as,
+
+A2 = W2 * (W1 * X + b1) + b2
+
+Which when expanded,
+
+A2 = ((W2 * W1) * X) + (W2 * b1 + b2)
+
+Since Ws & bs are just parameters/weights we can treat the product of them as W' & b'
+
+A2 = W' * X + b'
+
+We see from above that we end up getting a linear function of the input x.
+
+This is also true even when using a deep neural network with multiple hidden layers. If we use a linear or identity activation function we are just computing a linear function of the input & the layers are useless.
+
+Even if we replace the output layer with a sigmoid activation function the neural network expresses no better than a simple logistic regression model (with no hidden layer).
+
+This is because the product of two linear functions is again a linear function. So unless we have a non-linear component we don't build any model that does anything.
+	- The composition of two linear functions is itself a linear function.
+
+So there is practically very little case (except in very specific cases like compression) for using a linear/identity activation function in the hidden layers.
+
+The only case where using a linear activation function makes sense would be when using it for a regression problem where the prediction y is a real-valued number (-infinity to +infinity) Eg: House price prediction.
+	- Even here, it makes sense only in the output layer, the hidden layers should use tanh, RELU or Leaky RELU
+	- For the house price case of regression we can use a RELU in the output unit as well since we only want y^ in the range of 0 - infinity.
+	
+===========
+
+Derivatives of activation functions:
+
+For Sigmoid function ( sigmoid(z) ):
+
+a = g(z) = sigmoid(z) = 1 / ( 1 + e^-z )
+
+The derivative of the sigmoid activation function w.r.t to z is the slope of g(x) at z, 
+
+d(g(z)) / dz = a ( 1 - a )
+
+We will call the derivative as g'(z), so, 
+
+g'(z) = a ( 1 - a )
+
+Proof,
+
+If z = 10, g(z) = 1 so, g'(z) = 1 (1 - 1) => 0
+If z = -10, g(z) = 0 so, g'(z) = 0 (1 - 0) => 0
+If z = 0, g(z) = 1/2 so, g'(z) = 1/2 (1 - 1/2) => 1/4
+
+
+For Hyperbolic Tangent function ( tanh(z) ):
+
+a = g(z) = tanh(z) = ( e^z - e^-z ) / ( e^z + e^-z )
+
+The derivative of the hyperbolic tangent function w.r.t to z is the slope of g(x) at z,
+
+d(g(z)) / dz = 1 - a^2
+
+We will call the derivative as g'(z), so, 
+
+g'(z) = 1 - a^2
+
+Proof,
+
+If z = 10, g(z) = 1 so, g'(z) = 1 - 1^2 => 0
+If z = -10, g(z) = -1 so, g'(z) = 1 - (-1)^2 => 0
+If z = 0, g(z) = 0 so, g'(z) = 1 - 0^2 => 1
+
+
+Rectified Linear Unit (RELU) function ( RELU(0,z) ):
+
+a = g(z) = max(0,z)
+
+The derivative of the rectified linear unit function w.r.t to z is the slope of g(x) at z,
+
+d(g(z)) / dz = { 0 if z < 0; 1 if z >= 0 }	=> Technically its undefined for z=0 but in practice we can set it 1 or zero prefarably 1.
+
+We will call the derivative as g'(z), so, 
+
+g'(z) = { 0 if z < 0; 1 if z >= 0 }
+
+
+Leaky Rectified Linear Unit (Leaky RELU) function ( Leaky RELU(0,z) ):
+
+a = g(z) = max(0.01z, z)
+
+The derivative of the rectified linear unit function w.r.t to z is the slope of g(x) at z,
+
+d(g(z)) / dz = { 0.01 if z < 0; 1 if z >= 0 }	=> Technically its undefined for z=0 but in practice we can set it 1 or zero prefarably 1.
+
+We will call the derivative as g'(z), so, 
+
+g'(z) = { 0.01 if z < 0; 1 if z >= 0 }
+

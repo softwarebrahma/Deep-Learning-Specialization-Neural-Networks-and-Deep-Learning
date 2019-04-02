@@ -1,0 +1,83 @@
+
+Computation Graph:
+
+Computations of a neural network are organized as a forward pass or forward propagation where we compute the output layer/cost function that we want to optimize followed by backward pass or backward propagation to compute the gradient/derivate/slope. This is called a computation graph & is the efficient way to compute derivates that minimize the cost function.
+
+Derivatives with a Computation Graph:
+
+Chain rule in Calculus: The derivate of a final output variable/function (J) w.r.t to an input variable (a) is the product of the derivate of the intermediate output variables leading up to the final output variable from the input variable.
+/*Chain rule in Calculus: The derivate of a final output variable/function (J) w.r.t to an input variable (a) is the product of the derivate of the final output variable w.r.t the intermediate output variables leading up to the final output variable from the input variable.*/
+
+Eg: a ->(affects) v ->(affects) j	then,	dj/da = dj/dv * dv/da
+
+	- dj/dv : Derivative of j w.r.t to v
+	- dv/da : Derivative of v w.r.t to a
+	
+Again in python as before we will use the variables "dv" & "da" to represent the intermediate derivates above (derivate/slope of the final output variable/function w.r.t intermediate variables).
+
+====
+
+Logistic Regression Gradient Descent:
+
+To implement Gradient Descent for Logistic Regression, we need to compute derivates inorder to apply that to gradient descent formula. To compute the derivates we use the Computation Graph.
+
+Simply stated, in logistic regression, what we want to do is to modify the parameters, W and B, in order to reduce the loss L. We do this by using Gradient Descent to iteratively modify the values so that it reduces the loss.
+
+Given the the formulas for logistic regression as below,
+
+z = w'x + b
+
+y^ = a = sigmoid(z) = 1 / 1 + e ^ -z
+
+L(a,y) = -( y * log(a) + (1 - y) * log(1 - a) )
+
+For single example with x being a two-dimensional feature vector,
+
+z = w1 * x1 + w2 * x2 + b
+
+It can be shown using calculus that,
+
+da = -( y / a ) + ( (1 - y) / (1 - a) )		(Derivative of the Loss function L(a,y) w.r.t to a)
+
+dz = a - y				( Essentially dz = da * da/dz using Chain rule where da/dz = a * ( 1 - a) )
+
+dw1 = x1 * dz			(Derivative of the Loss function L(a,y) w.r.t to w1, dL(a,y)/dw1)
+
+dw2 = x2 * dz			(Derivative of the Loss function L(a,y) w.r.t to w2, dL(a,y)/dw2)
+
+db = dz					(Derivative of the Loss function L(a,y) w.r.t to b, dL(a,y)/db)
+
+With the above derivates we can plug into gradient descent formula as below,
+
+w1 = w1 - alpha * dw1
+
+w2 = w2 - alpha * dw2
+
+b = b - alpha * db
+
+====
+
+Gradient Descent on m Examples:
+
+Now since the Logistic Regression Cost Function J(W,B) = 1 / m * sum ( L(a,y) )		=> meaning the average of the loss/error over the entire training set
+
+We see that the Dervate of the Cost Function is also an average of the derivate of the loss/error over the entire training set.
+
+
+So the Derivates of the Cost Function w.r.t to the parameters w1, w2 & b for the entire training set is,
+
+dJ(w,b)/dw1 or dW1 = 1 / m * sum( dL(a,y)/dw1 )	= 1 / m * sum( dw1 )
+	- where dw1 is as defined above.
+
+Similarly for dW2 & dB.
+
+
+Also the Cost Function for the entire training set is,
+
+J(w,b) = 1 / m * sum( L(a,y) )
+
+With the above we can plug into the Gradient Descent formula as before to train & fit the parameters that minimize the Cost Function.
+
+This can be computed efficiently without the use of for loops through Vectorization techniques.
+
+=====

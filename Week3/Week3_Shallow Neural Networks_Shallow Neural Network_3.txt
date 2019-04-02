@@ -1,0 +1,64 @@
+
+Gradient descent for Neural Networks:
+
+Assuming one hidden layer or a 2N neural network for a binary classification problem,
+
+Forward Propagation is :
+
+Z1 = W1X + B1
+A1 = G1(Z1)
+Z2 = W2A1 + B2
+A2 = G2(Z2) ==> SIGMOID(Z2)
+
+where,
+	X = Matrix of dimensions (n0,m)
+	Y = Vector of dimensions (1, m)
+	W1 = Matrix of dimensions (n1, n0)
+	Z1 & A1 = Matrix of dimensions (n1, m)
+	W2 = Matrix of dimensions (n2, n1)	==> Will be a (1, n1) vector
+	Z2 & A2 = Matrix of dimensions (n2, m) ==> Will be a (1, m) vector.
+	
+Backward Propagation is :
+
+DZ2 = A2 - Y
+DW2 = 1 / m * ( DZ2 * A1' )	=> 1 / m * ( np.dot(DZ2, A1') )
+DB2 = 1 / m * sum(DZ2)	=> 1 / m * np.sum(DZ2, axis = 1, keepDims = True)
+DZ1 = ( W2' * DZ2 ) .* ( G1'(Z1) )	=> Its an element vise multiplication of the two (n1, m) dimensional matrices.	=> ( np.dot(W2', DZ2) ).multiply( G1'(Z1) )
+DW1 = 1 / m * (DZ1 * X')	=> 1 / m * ( np.dot(DZ1, X') )
+DB1 = 1 / m * sum(DZ1)	=> 1 / m * np.sum(DZ1, axis = 1, keepDims = True)
+
+Gradient Descent is :
+
+Repeat until convergence,
+
+W2 = W2 - alpha * DW2
+B2 = B2 - alpha * DB2
+W1 = W1 - alpha * DW1
+B1 = B1 - alpha * DB1
+
+
+=================
+
+Backpropagation intuition:
+
+=================
+
+Random Initialization:
+
+For neural networks its important to ensure that the parameters/weights are initialized to very small, random values in order to avoid symmetry (symmetry breaking), where all the hidden end up computing the same function which renders them redundant & no better than a simple logistic regression.
+
+The bias units can be initialized to zeros as long as the weights are random initialized to very small random values since it will make sure that the hidden units are computing different functions & symmetry is broken.
+
+The reason its important to initialize the weights, W to very small values is because otherwise the function Z, will produce very large or very small values resulting in the sigmoid/tanh activation function g(z) computing values very close to 0/-1 & 1 where the gradient is too small causing gradient descent to be saturated & slowed down very soon.
+
+Below is the formula for our shallow 2N neural network,
+
+W1 = np.random.randn((2,2)) * 0.01
+	- Where the constant 0.01 is needed to keep the values to very small random values that Z (Z = W*X + b) & hence A (A = g(Z)) doesn't get too large.
+
+B1 = np.zeros((2,1))
+
+W2 = np.random.randn((1,2)) * 0.01
+
+B2 = np.zeros((1,1))
+

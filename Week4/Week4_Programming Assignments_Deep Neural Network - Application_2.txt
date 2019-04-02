@@ -1,0 +1,67 @@
+
+You need to compute the cost, because you want to check if your model is actually learning.
+
+Remember that back propagation is used to calculate the gradient of the loss function with respect to the parameters.
+
+============
+
+After this assignment you will be able to:
+	- Build and apply a deep neural network to supervised learning.
+
+============
+
+General methodology:
+
+As usual you will follow the Deep Learning methodology to build the model:
+
+	1. Initialize parameters / Define hyperparameters
+	2. Loop for num_iterations:
+		a. Forward propagation
+		b. Compute cost function
+		c. Backward propagation
+		d. Update parameters (using parameters, and grads from backprop) 
+	4. Use trained parameters to predict labels
+
+
+===
+
+define the model structure (number & size of layers)
+
+preprocess the training/test set includes image2vector with reshape (unroll) & center & standardize (normalization,etc)
+
+def model(X, Y, layer_dimensions, num_iterations, learning_rate, print_cost):
+
+initialize_parameters(n_x, n_h, n_y) => parameters
+initialize_parameters(layer_dimensions=[4,3,1]) with hyper params => parameters
+
+loop(num_iterations)
+
+	linear_activ_fwd(A_prev, W, b, activation) => A, cache ((linear_cache, activation_Cache))
+	linear_activ_fwd(X, parameters) => AL, caches (list of (linear_cache, activation_Cache))
+
+	compute_cost(AL, Y) => cost
+
+	linear_activ_bwd(dA, cache, activation) => dA_prev, grads ((dW, db))
+	linear_activ_bwd(AL, Y, caches) => grads => grads (list of (dA, dW, db) as dictionary)
+
+	update_paramters(parameters, grads, learning_rate) => parameters
+
+predict(x_test, params)
+
+====
+
+Note: 
+
+You may notice that running the model on fewer iterations (say 1500) gives better accuracy on the test set. This is called "early stopping" and we will talk about it in the next course. 
+
+Early stopping is a way to prevent overfitting.
+
+====
+
+Though in the next course on "Improving deep neural networks" you will learn how to obtain even higher accuracy by systematically searching for better hyperparameters (learning_rate, layers_dims, num_iterations, and others you'll also learn in the next course).
+
+====
+
+References:
+for auto-reloading external module: http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
+

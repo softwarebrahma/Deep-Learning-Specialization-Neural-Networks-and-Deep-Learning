@@ -1,0 +1,169 @@
+
+Vectorization:
+
+Method of eliminating for loops & thereby speed up processing of computations when using large data sets.
+
+Python's NumPy package provides methods for vectorization as shown below. Also NumPy notebook can be used for development,
+
+import numpy as np
+
+a = np.array([1,2,3,4])
+print(a)
+
+import time
+
+a = np.random.rand(1000000)
+b = np.random.rand(1000000)
+
+tic = time.time()
+c = np.dot(a,b)
+toc = time.time()
+print(c)
+print("Vectorized dot product : " + str(1000 * (toc-tic)) + " ms")
+
+c = 0
+tic = time.time()
+for i in range(1000000)
+	c+=a[i] * b[i]
+toc = time.time()
+print(c)
+print("Non-Vectorized dot product : " + str(1000 * (toc-tic)) + " ms")
+
+
+Use shift+enter to execute commands.
+
+So using above example for,
+
+z = w'x + b
+	- where w & x are xn or n dimensional vectors
+
+We can compute with numpy as,
+
+import numpy as np
+
+z = np.dot(w,x) + b
+
+
+
+CPU vs GPU:
+===========
+
+Both CPU & GPU have parallelization instructions called SIMD - Single Instruction Multiple Data.
+
+When using numPy built-in methods it allows numPy to take advantage of these parallelization instructions & parallelize the computations thus speeding it up.
+
+Though both CPU & GPU take advantageof SIMD GPU's do it remarkably well than CPU.
+
+
+=====
+
+More Vectorization Examples:
+
+NOTE ON VECTOR MULTIPLICATION/PRODUCT: 
+
+	- VECTOR X VECTOR DOT PRODUCT YIELDS A SCALAR AND ARE ALSO CALLED INNER PRODUCT OR SCALAR PRODUCT IN ADDITION TO DOT PRODUCT. AND THE ORDER OF MULTIPLICATION DOESN'T MATTER I.E,  A'.B == B'.A == S
+		- HERE BOTH VECTORS MUST HAVE SAME NUMBER OF ELEMENTS (I.E BOTH HAVE SAME NUMBER OF ROWS/COLUMNS). THIS NATURALLY TAKES CARE OF THE MATRIX MULTIPLICATION RULE (WHERE THE ROWS OF SECOND MATRIX MUST MATCH THE COLUMNS OF THE FIRST MATRIX).
+		- THE ORDER OF TRANSPOSE HOWEVER DOES MATTER. BECAUSE WHEN THE ORDER OF TRANSPONSE IS CHANGED THE PRODUCT CHANGES TO A CROSS/OUTER PRODUCT FROM DOT/INNER PRODUCT (AS BELOW).
+	
+	- VECTOR X VECTOR OUTER PRODUCT PRODUCT YIELDS A RECTANGULAR MATRIX AND ARE ALSO CALLED CROSS PRODUCT. HERE THE ORDER OF MULTIPLICATION MATTERS I.E.  A.B' != B.A'
+		- THE RULES OF MATRIX MULTIPLICATION APPLY (WHERE THE ROWS OF SECOND MATRIX MUST MATCH THE COLUMNS OF THE FIRST MATRIX), SO THE TRANSPONSE DIMENSIONS OF EITHER MATRIX MUST MATCH I.E HAVE THE SAME NUMBER OF ELEMENTS AS THE OTHER.
+		- BECAUSE OF THE ABOVE RULE, THE ORDER OF TRANSPONSE CANNOT BE CHANGED AS IT WOULD MAKE THE MULTIPLICATION IMPOSSIBLE. (EG: B'.A IS NOT POSSIBLE).
+
+
+>> a = [1;2;3]
+a =
+
+   1
+   2
+   3
+
+>> b = [4;5;6]
+b =
+
+   4
+   5
+   6
+
+>> size(a)
+ans =
+
+   3   1
+
+>> size(b)
+ans =
+
+   3   1
+
+
+>> a' * b
+ans =  32
+
+>> b * a'
+ans =
+
+    4    8   12
+    5   10   15
+    6   12   18
+		
+>> b' * a
+ans =  32
+
+>> a * b'
+ans =
+
+    4    5    6
+    8   10   12
+   12   15   18
+
+
+   
+Python's NumPy package:
+
+numPy's dot product function can be used to perform vector x vector dot products that yield a scalar as used & explained above.
+
+But the dot product function can also be used to perform a matrix x vector dot product that yields a vector.
+
+u = M * v
+
+u = np.dot(M,v)
+
+
+In addition we can also use the dot product function to perform a vector x matrix dot product by using transpose that yields a vector.
+
+u = v' * M
+
+u = np.dot(v.T, M)
+
+
+numPy also has other matrix/vector valued functions like exp, log, abs, maximum, <array> ** n, 1 / <array> etc.
+
+Assuming v is an numPy array,
+
+u = np.exp(v)
+
+u = np.log(v)
+
+u = np.abs(v)
+
+u = np.maximum(v,0)
+
+u = v ** 2
+
+u = 1 / v
+
+In addition we have <array> += n or /= n, <array> += <array> or /= <array>, etc.
+
+v += 5
+
+v /= 5
+
+u += v
+
+There is also,
+
+np.zeros(r,c) to get a zero valued matrix/vector.
+
+np.shape(v), to get the dimensions of a matrix/vector.
+
+
+

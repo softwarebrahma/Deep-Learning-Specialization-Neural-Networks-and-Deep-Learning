@@ -1,0 +1,84 @@
+
+The term, Deep Learning, refers to training Neural Networks, sometimes very large Neural Networks.
+
+Neural Network: 
+
+Used for complex non-linear hypothesis when the feature space is very large. Effective with Supervised learning method.
+
+Input layer, Hidden layers & Output layer. Given enough inputs (x,y) the algorithm can accurately discover the hidden layer features.
+
+Densely interconnected mesh. Every input layer feature is interconnected with every hidden layer feature.
+
+======
+
+Supervised Learning Applications & corresponding Neural Networks:
+
+	- House price prediction (price value based on house & location info)
+	- Online Advertising / Recommendations (click or not based on ad & user info)
+	- Image tagging/recognition (Computer vision) (given image identify if its one of a 1000 objects)
+	- Speech recognition (NLP) (audio to text transcript)
+	- Machine translation (chinese to english)
+	- Autonomous driving (image & radar info find the position of vehicles around)
+
+First two involve Standard/Traditional Neural Networks.
+
+Image data requires Convulusion Neural Networks (CNNs) so third & partially last will require CNNs
+
+Temporal or Sequence data requires Recurrent Neural Networks (RNNs) so fourth & fifth require RNNs (language & audio is sequence based)
+
+Last one involves Custom Neural Networks (CNNs + custom ones)
+
+
+Supervised Learning Applications are applied to both 
+	- Structured
+		- Data whose features have very well defined meaning (like columns of a house price prediction feature row) with labels that we need to predict. (basically databases of data)
+	- Unstructured data
+		- Data like audio, image & text whose features don't have well defined meaning.
+	
+In summary Neural Networks have transformed Supervised Learning.
+
+======
+
+Why is Deep Learning taking off?
+
+Scale drives deep learning progress.
+	- Scale of data & scale of models/processing
+
+Traditional Learning Algorithms
+	- SVM
+	- Linear regression
+	- Logistic regression
+
+If you plot algorithm performance/accuracy against data, Traditional Learning Algorithms don't take advantage of data beyond a certain size & their performance/accuracy plaeutues.
+
+In contrast even with a small neural network there will be much better performance/accuracy when the scale of the training set increases.
+
+With a medium size neural n/w it will get even better. And when using a large size neural network the performance/accuracy will keep getting even better with larger & larger data sets.
+
+So in the regime of big data scale drives neural network performance/accuracy
+
+Scale here involves size of the data set (m) & the size of the neural network (lots of features/parameters, hidden units & layers, interconnections)
+
+Today one of the most reliable ways to get better accuracy is to train a really large Neural n/w or throw a lot of data at it.
+	- But only upto a certain extent...either network takes too much time to train or run out of data
+
+Data here means labeled data (x,y).
+
+In the regime of smaller data sets the relative ordering of the learning algorithms are not well defined & its really upto the skill of "hand engineering features" (and low level algorithm tuning) that might determine algorithm performance/accuracy.
+
+
+In addition to scale of data & scale of computation there is also algorithmic innovation that drives neural n/w performance/accuracy.
+
+Most of algorithmic innovation has been to improve computational scale or to improve speed of computation (fast computation)
+
+Eg: Changing from Sigmoid function (which has near zero gradient for large values of inputs) to Rectified Linear Unit (RELU) function (which has a gradient = 1 for all positive values of input)
+
+For an algorithm like gradient descent if the gradient plaeutues to near zero then the parameters will change more slowly (smaller values) thereby slowing down the learning rate whereas when its 1 this will be less likely.
+
+So changing the activation function to use RELU has speeded computation allowing training of larger neural n/ws or achieveing faster processing.
+
+This is important in the process of Idea -> Code -> Experiment cycle of machine learning where if the compute improves to 10 mins or 1 day from 1 month we can try different ideas & perform much better.
+
+======
+
+

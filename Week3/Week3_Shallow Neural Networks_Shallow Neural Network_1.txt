@@ -1,0 +1,94 @@
+Demonstrations: Autonomous Car, Image Recognition, Object Recognition, Speech to Text, Video Recognition, Reinforcement learning, Text generation, AI based Chatbots
+
+=====
+
+Neural Networks Overview & Neural Networks Representation:
+
+Activations (A) : The term A also stands for activations, and it refers to the values that different layers of the neural network are passing on to the subsequent layers.
+	- The input layer passes on the value x to the hidden layer, so we're going to call that activations of the input layer A super script 0. 
+	- The next layer, the hidden layer will in turn generate some set of activations, which I'm going to write as A superscript square bracket 1.
+	- Each layer can have multiple units/nodes called Activation units, which we can represent for example as superscript square bracket 1 subscript 1.
+	- The hidden & output layers will have parameters associated with them.
+
+The input layer or features in neural network convention is not strictly considered a layer and hence the superscript 0 given to the input layer/features. 
+	- So a neural network with an input layer, one hidden layer & an output layer is called a 2 layer Neural Network. (2 layer NN, though technically there are 3 layers)
+
+Because of the multiple activation layers each having one or more activation units we would have,
+	- A parameter matrix W (instead of a parameter vector, w as in Logistic Regression) for each layer & its number of rows will be equal to the number of activation units in its associated layer while its number of columns will be equal to the number of activation units in the previous layer.
+	- A parameter vector B (instead of a parameter scalar, b as in Logistic Regression) for each layer & its dimensions (rows) will be equal to the number of activation units in its associated layer.
+	
+=====
+
+Computing a Neural Network's Output:
+
+One of the rules of thumb is that when we have different nodes/units in a layer its useful to stack them vertically.
+	- This helps vectorize the activation unit computations for all units in a layer.
+
+=====
+
+Vectorizing across multiple examples:
+
+The key intuition is that just we should stack the parameter vectors for the different activation units in each layer vertically to get an (ln, xn) matrix W for each layer.
+	- This since the training examples are stacked up (training example vectors) horizontally to get an (xn, m) matrix X.
+	- This way a simple matrix multiplication followed by a broadcasted addition does the job of computing the prediction without loops for each layer. These would then be Z & A matrices.
+	- Thus we achieve a vectorized implementation for propagation through the neural network.
+
+So with this notation the resulting Z & A matrices, just like the X matrix would be horizontally indexing across the training examples m and vertically indexing into the different hidden units of the neural network layer.
+	- X really is actually the input layer (A0)..and its units here are the input features.
+
+======
+
+Explanation for Vectorized Implementation:
+
+So if we stack the inputs in columns & the weights in rows as a result of matrix multiplication & broadcasted addition we get the outputs in columns.
+
+So we can simply do,
+	- Z1 = np.dot(W1, X) + b1
+	- A1 = sigmoid(Z1)
+	- Z2 = np.dot(W2, A1) + b2
+	- A2 = sigmoid(Z2)
+	
+So there is a symmetry here since X in the above can really be thought of as A0.
+
+This way we achieve vectorizing across multiple training examples in addition to vectorizing across the different activation units.
+
+========================
+
+Activation functions:
+
+Choice of Activation functions to be used in the hidden & output layers of a neural network has to be done carefully & can be different for different layers for optimization purposes.
+
+Besides the sigmoid activation function there are other non-linear activation functions (more generally referred to as g(z)) that can be almost always more efficient.
+	- Formula is,
+		sigmoid(z) = 1 / ( 1 + e^-z )
+
+One such choice is the Hyperbolic Tangent function, 'tanh(z)' which ranges from -1 to 1. (a mathematically shifted version of sigmoid activation function which ranges from 0 to 1)
+	- Formula is,
+		- tanh(z) = ( e^z - e^-z ) / ( e^z + e^-z )
+
+The reason this is better for the hidden layer is because it lends well to centering of the values which actually makes learning for the next layer a little bit easier. Since the values range from -1 to 1 they are closer to having a zero mean which has the effect of centering the data so that the mean of the values is close to zero (just like when we perform zero mean normalization on the input layer features so that it results in the mean being zero).
+
+Another choice is the Rectified Linear Unit, 'RELU(z,0)' which ranges from 0 (derivative of 0) for all negative values of z and increases linearly with a non-near zero gradient/slope with a derivative of 1 for positive values of z. The derivative when z is exactly zero is technically undefined. But in practice the odds of z being exactly zero (0.0000000) is very small & so derivative can be treated as 1 or 0.
+	- This solves a problem with sigmoid & tanh activation functions where when the values of z become very small or very large the gradient(of the derivative)/slope(of the function) becomes very small & becomes close to zero which slows down gradient descent.
+	- Formula is,
+		RELU(z) = max(0,z)
+
+The reason this is better is because it has a non-zero gradient/slope for positive values of z & thus helps speed up gradient descent.
+	- Even though the disadvantage of having derivative (& hence slope) being zero for negative z values in practice this is not a problem since enough values will be greater than zero.
+
+There is also a small variant of RELU called 'Leaky RELU' that has a non-near zero negative gradient/slope for all negative values of z which will help in cases where there are higher chances of z having negative values
+	- Usually works better, but not used that much in practice.
+	- Formula is,
+		Leaky RELU(z) = max(0.01z,z)
+
+However the sigmoid activation function is the obvious choice for cases like the output layer activation unit of a binary classifier since we want values in the range of 0 to 1 which is the label value range that we want to predict. But in almost all other cases sigmoid activation is never better than tanh or RELU.
+
+The key reason RELU or Leaky RELU is better than sigmoid or tanh activation functions is that for a large range of z values (z space) the gradient/slope has a non-zero value which helps speed up gradient descent & hence learn faster.
+
+However the choice of activation function need not be always fixed. Its better to try out each & validate with a hold out validation set & choose the one that works/fits best.
+	- Helps future proof it.
+	
+
+
+
+
